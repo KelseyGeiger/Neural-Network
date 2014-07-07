@@ -15,19 +15,19 @@ class Neuron {
     public:
         Neuron();
 
-        Neuron(int w, float v = 0.0f, bool b = false);
+        Neuron(size_t w, float v = 0.0f, bool b = false);
 
         virtual ~Neuron();
 
-        void init(int w);
+        void init(size_t w);
 
         void setValue(float v);
 
         float getValue();
 
-        void setWeight(int index, float value);
+        void setWeight(size_t index, float value);
 
-        float getWeight(int index);
+        float getWeight(size_t index);
 
         size_t weightCount();
 
@@ -50,20 +50,20 @@ class Neuron {
 
         const float* getPreviousDeltas() const;
 
-        Neuron& operator+=(float delta);
+        Neuron& operator+=(float toAdd);
 
         const float& operator[](size_t index) const;
 
         friend std::ostream& operator<<(std::ostream& stream, const Neuron& n);
 
     private:
+        float* weights = nullptr;
+        float* prevDeltas = nullptr;
         float value;
 
         bool bias;
 
         size_t numWeights;
-        float* weights = nullptr;
-        float* prevDeltas = nullptr;
 };
 
 #endif // NEURON_H

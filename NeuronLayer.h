@@ -11,6 +11,8 @@ class NeuronLayer {
 
         virtual ~NeuronLayer();
 
+        void init(size_t numNeurons, size_t numBias);
+
         void connectTo(NeuronLayer& nextLayer);
 
         void resetNeurons();
@@ -24,6 +26,8 @@ class NeuronLayer {
         Neuron& operator[](size_t index);
 
         const Neuron& operator[](size_t index) const;
+
+        friend std::ostream& operator<<(std::ostream& stream, const NeuronLayer& nl);
 
     private:
         Neuron* neurons = nullptr;
