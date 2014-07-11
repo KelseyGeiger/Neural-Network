@@ -21,7 +21,7 @@ class NeuronLayer {
 
         void sendOutputs(std::function<float(float)> activFunc);
 
-        size_t size();
+        size_t size() const;
 
         Neuron& operator[](size_t index);
 

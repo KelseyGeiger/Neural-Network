@@ -24,7 +24,7 @@ NeuronLayer::NeuronLayer(size_t numNeurons, size_t numBias) {
 
     for(size_t i = neuronCount; i < (neuronCount + biasCount); ++i) {
         neurons[i].setBias(true);
-        neurons[i].setValue((float) rand() / (float) RAND_MAX);
+        neurons[i].setValue(1.0f);
     }
 }
 
@@ -48,7 +48,7 @@ void NeuronLayer::init(size_t numNeurons, size_t numBias) {
 
     for(size_t i = neuronCount; i < (neuronCount + biasCount); ++i) {
         neurons[i].setBias(true);
-        neurons[i].setValue((float) rand() / (float) RAND_MAX);
+        neurons[i].setValue(1.0f);
     }
 }
 
@@ -88,7 +88,7 @@ void NeuronLayer::sendOutputs(std::function<float(float)> activFunc) {
     }
 }
 
-size_t NeuronLayer::size() {
+size_t NeuronLayer::size() const {
     return neuronCount;
 }
 

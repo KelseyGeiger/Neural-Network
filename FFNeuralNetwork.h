@@ -4,7 +4,6 @@
 #include <math.h>
 #include <fstream>
 #include <sstream>
-#include <string>
 #include "NeuronLayer.h"
 
 float sigmoid(float x);
@@ -21,9 +20,8 @@ class FFNeuralNetwork
 
         FFNeuralNetwork(const std::string& filename);
 
-        FFNeuralNetwork(size_t inputNeurons, size_t numHidden, size_t neuronPerHidden, size_t outputNeurons);
-
-        FFNeuralNetwork(size_t inputNeurons, size_t numHidden, size_t* hiddenSizes, size_t outputNeurons);
+        FFNeuralNetwork(size_t inputNeurons, size_t inputBias, size_t numHidden, size_t neuronPerHidden, size_t biasPerHidden, size_t outputNeurons);
+        FFNeuralNetwork(size_t inputNeurons, size_t inputBias, size_t numHidden, size_t* hiddenSizes, size_t* biasAmounts, size_t outputNeurons);
 
         virtual ~FFNeuralNetwork();
 
@@ -67,44 +65,5 @@ class FFNeuralNetwork
         std::function<float(float)> activationDerivative;
 
 };
-
-//-------------------------------------------//
-
-float sigmoid(float x) {
-    return 1.0f / (1.0f + exp(-x) );
-}
-
-float sigmoidDerivative(float x) {
-    float sigRes = sigmoid(x);
-    return sigRes * (1.0f - sigRes);
-}
-
-FFNeuralNetwork loadNN(std::string filename) {
-    std::fstream file;
-    std::stringstream valueReader;
-
-    size_t numLayers, inputSize, outputSize;
-    size_t* hiddenSizes;
-
-    float* weights;
-
-    file.open(filename.c_str(), std::ios_base::in);
-
-    std::string line;
-
-    //skip first line, read to actual data
-    std::getline(file, line);
-    std::getline(file, line, '=');
-
-    std::getline(file, line, ';');
-
-    valueReader << line;
-
-    valueReader >> numLayers;
-
-    hiddenSizes = new size_t[numLayers - 2];
-
-
-}
 
 #endif // FFNEURALNETWORK_H

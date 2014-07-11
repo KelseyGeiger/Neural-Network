@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <ctime>
 #include <cstdlib>
+#include <string>
 
 class Neuron;
 
