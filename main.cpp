@@ -27,17 +27,13 @@ int main() {
         0
     };
 
-    srand(time(0));
-
-    float* randAccess = new float[2];
-
     std::chrono::microseconds dur{0};
 
     std::chrono::time_point<std::chrono::steady_clock> start = std::chrono::steady_clock::now();
 
-    ffnnTest.train(inputs, 8, expected, 4, 10000, 0.3f, 0.6f);
+        ffnnTest.train(inputs, 8, expected, 4, 10000, 0.3f, 0.6f);
 
-    std::chrono::microseconds delta = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - start);
+    dur = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - start);
 
     std::cout << "On average, training took " << (float) dur.count() / 10000.0f << " microseconds.\n";
 

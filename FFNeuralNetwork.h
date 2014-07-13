@@ -46,7 +46,7 @@ class FFNeuralNetwork
         void train(const float* inputData, size_t inputSize, const float* expected, size_t expectedSize, size_t numEpochs = 2500, float learningRate = 1.0f, float momentum = 0.0f);
         void train(const std::vector<float>& inputData, const std::vector<float>& expected, size_t numEpochs = 2500, float learningRate = 1.0f, float momentum = 0.0f);
 
-        void backPropagate(float* expected, size_t numExpected, float learningRate, float momentum);
+        void backPropagate(const float* expected, size_t numExpected, float learningRate, float momentum);
         void backPropagate(const std::vector<float>& expected, float learningRate, float momentum);
 
         std::vector<float> calculateOutputError(const float* expected, size_t numExpected);

@@ -126,7 +126,7 @@ void FFNeuralNetwork::setInputs(const std::vector<float>& vals) {
 }
 
 void FFNeuralNetwork::propagateForwards() {
-    layers[0].sendWeightedVals();
+    input().sendWeightedVals();
 
     for(size_t i = 1; i < layerCount - 1; ++i) {
         layers[i].sendOutputs(activationFunction);
@@ -160,34 +160,25 @@ std::vector<float> FFNeuralNetwork::processData(const std::vector<float>& vals) 
 }
 
 void FFNeuralNetwork::train(const float* inputData, size_t inputSize, const float* expected, size_t expectedSize, size_t numEpochs, float learningRate, float momentum) {
+
     srand(time(0));
-    float* tempInput = new float[input().size()];
-    float* tempExpected = new float[output().size()];
 
     for(size_t i = 0; i < numEpochs; ++i) {
+
         size_t randIndex = rand() % (inputSize / input().size());
 
-        for(size_t j = 0; j < input().size(); ++j) {
-            tempInput[j] = inputData[randIndex + j];
-        }
-
-        for(size_t j = 0; j < output().size(); ++j) {
-            tempExpected[j] = expected[randIndex + j];
-        }
-
-        setInputs(tempInput, input().size());
+        setInputs(inputData+(randIndex*input().size()), input().size());
 
         propagateForwards();
-        backPropagate(tempExpected, output().size(), learningRate, momentum);
+        backPropagate(expected+(randIndex*output().size()), output().size(), learningRate, momentum);
 
         reset();
     }
 
-    delete[] tempInput;
-    delete[] tempExpected;
 }
 
 void FFNeuralNetwork::train(const std::vector<float>& inputData, const std::vector<float>& expected, size_t numEpochs, float learningRate, float momentum) {
+
     srand(time(0));
     std::vector<float> tempInput;
     std::vector<float> tempExpected;
@@ -215,7 +206,7 @@ void FFNeuralNetwork::train(const std::vector<float>& inputData, const std::vect
     }
 }
 
-void FFNeuralNetwork::backPropagate(float* expected, size_t numExpected, float learningRate, float momentum) {
+void FFNeuralNetwork::backPropagate(const float* expected, size_t numExpected, float learningRate, float momentum) {
     std::vector<float> previousErrors = calculateOutputError(expected, numExpected);
 
     //start at the last hidden layer
