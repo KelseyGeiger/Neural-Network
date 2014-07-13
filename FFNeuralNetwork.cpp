@@ -210,7 +210,7 @@ void FFNeuralNetwork::backPropagate(const float* expected, size_t numExpected, f
     std::vector<float> previousErrors = calculateOutputError(expected, numExpected);
 
     //start at the last hidden layer
-    for(size_t i = layerCount - 2; i > 0; --i) {
+    for(int i = layerCount - 2; i >= 0; --i) {
         adjustWeights(layers[i], previousErrors, learningRate, momentum);
         previousErrors = calculateHiddenError(layers[i], previousErrors);
     }
@@ -220,7 +220,7 @@ void FFNeuralNetwork::backPropagate(const std::vector<float>& expected, float le
     std::vector<float> previousErrors = calculateOutputError(expected);
 
     //start at the last hidden layer
-    for(size_t i = layerCount - 2; i > 0; --i) {
+    for(int i = layerCount - 2; i >= 0; --i) {
         adjustWeights(layers[i], previousErrors, learningRate, momentum);
         previousErrors = calculateHiddenError(layers[i], previousErrors);
     }

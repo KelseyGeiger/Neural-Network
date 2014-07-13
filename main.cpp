@@ -31,11 +31,11 @@ int main() {
 
     std::chrono::time_point<std::chrono::steady_clock> start = std::chrono::steady_clock::now();
 
-        ffnnTest.train(inputs, 8, expected, 4, 10000, 0.3f, 0.6f);
+    ffnnTest.train(inputs, 8, expected, 4, 50000, 0.2f, 0.8f);
 
     dur = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - start);
 
-    std::cout << "On average, training took " << (float) dur.count() / 10000.0f << " microseconds.\n";
+    std::cout << "On average, training took " << (float) dur.count() / 50000.0f << " microseconds.\n";
 
     float in[] = {
         1, 1
