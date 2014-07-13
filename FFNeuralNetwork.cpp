@@ -208,21 +208,23 @@ void FFNeuralNetwork::train(const std::vector<float>& inputData, const std::vect
 
 void FFNeuralNetwork::backPropagate(const float* expected, size_t numExpected, float learningRate, float momentum) {
     std::vector<float> previousErrors = calculateOutputError(expected, numExpected);
+    adjustWeights(layers[layerCount - 2], previousErrors, learningRate, momentum);
 
     //start at the last hidden layer
-    for(int i = layerCount - 2; i >= 0; --i) {
-        adjustWeights(layers[i], previousErrors, learningRate, momentum);
+    for(int i = layerCount - 2; i > 0; --i) {
         previousErrors = calculateHiddenError(layers[i], previousErrors);
+        adjustWeights(layers[i-1], previousErrors, learningRate, momentum);
     }
 }
 
 void FFNeuralNetwork::backPropagate(const std::vector<float>& expected, float learningRate, float momentum) {
     std::vector<float> previousErrors = calculateOutputError(expected);
+    adjustWeights(layers[layerCount - 2], previousErrors, learningRate, momentum);
 
     //start at the last hidden layer
-    for(int i = layerCount - 2; i >= 0; --i) {
-        adjustWeights(layers[i], previousErrors, learningRate, momentum);
+    for(int i = layerCount - 2; i > 0; --i) {
         previousErrors = calculateHiddenError(layers[i], previousErrors);
+        adjustWeights(layers[i-1], previousErrors, learningRate, momentum);
     }
 }
 
@@ -277,11 +279,15 @@ void FFNeuralNetwork::adjustWeights(NeuronLayer& nl, std::vector<float> errors, 
     }
 
     for(size_t i = 0; i < nl.size(); ++i) {
+
         for(size_t j = 0; j < nl.getTarget()->size(); ++j) {
+
             float weightDelta = errors[j] * nl[i].getOutput(activationFunction) * learningRate;
             weightDelta += nl[i].getPreviousDeltas()[j] * momentum;
             nl[i].adjustWeight(j, weightDelta);
+
         }
+
     }
 }
 

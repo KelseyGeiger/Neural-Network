@@ -26,6 +26,7 @@ Neuron::Neuron(size_t w, float v, bool b) {
 
 Neuron::~Neuron() {
     delete[] weights;
+    delete[] prevDeltas;
 }
 
 void Neuron::init(size_t w) {

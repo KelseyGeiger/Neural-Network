@@ -84,7 +84,13 @@ void NeuronLayer::sendWeightedVals() {
 
 void NeuronLayer::sendOutputs(std::function<float(float)> activFunc) {
     for(size_t i = 0; i < (neuronCount + biasCount); ++i) {
-        float neurOut = neurons[i].getOutput(activFunc);
+        float neurOut = 0.0f;
+
+        if(neurons[i].isBias()){
+            neurOut = neurons[i].getValue();
+        } else {
+            neurOut = neurons[i].getOutput(activFunc);
+        }
 
         for(size_t j = 0; j < target->size(); ++j) {
             (*target)[j] += ( neurons[i][j] * neurOut);
