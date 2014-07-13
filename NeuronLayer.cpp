@@ -74,22 +74,30 @@ void NeuronLayer::resetNeurons() {
 
 void NeuronLayer::sendWeightedVals() {
     for(size_t i = 0; i < (neuronCount + biasCount); ++i) {
+        float neurVal = neurons[i].getValue();
+
         for(size_t j = 0; j < target->size(); ++j) {
-            (*target)[j] += ( neurons[i][j] * neurons[i].getValue() );
+            (*target)[j] += ( neurons[i][j] * neurVal );
         }
     }
 }
 
 void NeuronLayer::sendOutputs(std::function<float(float)> activFunc) {
     for(size_t i = 0; i < (neuronCount + biasCount); ++i) {
+        float neurOut = neurons[i].getOutput(activFunc);
+
         for(size_t j = 0; j < target->size(); ++j) {
-            (*target)[j] += ( neurons[i][j] * neurons[i].getOutput(activFunc));
+            (*target)[j] += ( neurons[i][j] * neurOut);
         }
     }
 }
 
 size_t NeuronLayer::size() const {
     return neuronCount;
+}
+
+NeuronLayer* NeuronLayer::getTarget() {
+    return target;
 }
 
 Neuron& NeuronLayer::operator[](size_t index) {
@@ -109,15 +117,14 @@ const Neuron& NeuronLayer::operator[](size_t index) const {
 }
 
 std::ostream& operator<<(std::ostream& stream, const NeuronLayer& nl) {
-    stream << "\tLayer {\n";
-    stream << "\t\tneuronCount = " << nl.neuronCount << ";\n";
-    stream << "\t\tbiasCount = " << nl.biasCount << ";\n\n";
+    stream << "neuronCount: " << nl.neuronCount << "\n";
+    stream << "biasCount: " << nl.biasCount << "\n\n";
 
     for(size_t i = 0; i < (nl.neuronCount + nl.biasCount); ++i) {
-        stream << nl[i] << "\n\n";
+        stream << nl[i] << "\n";
     }
 
-    stream << "\t};\n";
+    stream << "\n";
 
     return stream;
 }

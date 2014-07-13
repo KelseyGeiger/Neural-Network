@@ -49,6 +49,8 @@ class Neuron {
 
         void adjustWeights(float* deltas, size_t numDeltas);
 
+        float getPreviousDelta(size_t index);
+
         const float* getPreviousDeltas() const;
 
         Neuron& operator+=(float toAdd);

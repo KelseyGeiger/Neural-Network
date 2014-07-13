@@ -114,6 +114,13 @@ void Neuron::adjustWeights(float* deltas, size_t numDeltas) {
         throw std::out_of_range("There are fewer weights than " + std::to_string(numDeltas));
     }
 }
+float Neuron::getPreviousDelta(size_t index) {
+    if(index < numWeights) {
+        return prevDeltas[index];
+    } else {
+        throw std::out_of_range("There are fewer weights than " + std::to_string(index + 1));
+    }
+}
 
 const float* Neuron::getPreviousDeltas() const {
     return prevDeltas;
@@ -133,26 +140,15 @@ const float& Neuron::operator[](size_t index) const {
 }
 
 std::ostream& operator<<(std::ostream& stream, const Neuron& n) {
-    if(n.bias) {
-        stream << "\t\tBias {\n";
-    } else {
-        stream << "\t\tNeuron {\n";
-    }
-
-    stream << "\t\t\tvalue = " << n.value << ";\n";
-    stream << "\t\t\tweightCount = " << n.numWeights << ";\n";
-    stream << "\t\t\tweights = [\n";
+    stream << "bias: " << std::boolalpha << n.bias << "\n";
+    stream << "value: " << n.value << "\n";
+    stream << "weightCount: " << n.numWeights << "\n";
+    stream << "weights:\n";
     for(size_t i = 0; i < n.numWeights; ++i) {
-        stream << "\t\t\t\t" << n[i];
-
-        if(i < n.numWeights - 1) {
-            stream << ",\n";
-        } else {
-            stream << "\n";
-        }
+        stream << n[i] << ",\n";
     }
-    stream << "\t\t\t];\n";
-    stream << "\t\t};\n";
+
+    stream << "\n";
 
     return stream;
 }

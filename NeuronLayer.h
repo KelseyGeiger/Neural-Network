@@ -23,6 +23,8 @@ class NeuronLayer {
 
         size_t size() const;
 
+        NeuronLayer* getTarget();
+
         Neuron& operator[](size_t index);
 
         const Neuron& operator[](size_t index) const;
