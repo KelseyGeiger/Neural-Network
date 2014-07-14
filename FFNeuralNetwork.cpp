@@ -1,6 +1,8 @@
 #include "FFNeuralNetwork.h"
 
 FFNeuralNetwork::FFNeuralNetwork() {
+    srand(time(0));
+
     layers = new NeuronLayer[3];
 
     layers[0].init(2, 1);
@@ -17,6 +19,8 @@ FFNeuralNetwork::FFNeuralNetwork() {
 }
 
 FFNeuralNetwork::FFNeuralNetwork(size_t inputNeurons, size_t inputBias, size_t numHidden, size_t neuronPerHidden, size_t biasPerHidden, size_t outputNeurons) {
+    srand(time(0));
+
     layerCount = numHidden + 2;
 
     layers = new NeuronLayer[numHidden + 2];
@@ -38,6 +42,8 @@ FFNeuralNetwork::FFNeuralNetwork(size_t inputNeurons, size_t inputBias, size_t n
 }
 
 FFNeuralNetwork::FFNeuralNetwork(size_t inputNeurons, size_t inputBias, size_t numHidden, size_t* hiddenSizes, size_t* biasAmounts, size_t outputNeurons) {
+    srand(time(0));
+
     layerCount = numHidden + 2;
 
     layers = new NeuronLayer[numHidden + 2];
@@ -63,8 +69,11 @@ FFNeuralNetwork::~FFNeuralNetwork() {
 }
 
 void FFNeuralNetwork::init(size_t inputNeurons, size_t inputBias, size_t numHidden, size_t neuronPerHidden, size_t biasPerHidden, size_t outputNeurons) {
+    srand(time(0));
+
     layerCount = numHidden + 2;
 
+    delete[] layers;
     layers = new NeuronLayer[numHidden + 2];
 
     layers[0].init(inputNeurons, inputBias);
@@ -84,8 +93,11 @@ void FFNeuralNetwork::init(size_t inputNeurons, size_t inputBias, size_t numHidd
 }
 
 void FFNeuralNetwork::init(size_t inputNeurons, size_t inputBias, size_t numHidden, size_t* hiddenSizes, size_t* biasAmounts, size_t outputNeurons) {
+    srand(time(0));
+
     layerCount = numHidden + 2;
 
+    delete[] layers;
     layers = new NeuronLayer[numHidden + 2];
 
     layers[0].init(inputNeurons, inputBias);
@@ -161,8 +173,6 @@ std::vector<float> FFNeuralNetwork::processData(const std::vector<float>& vals) 
 
 void FFNeuralNetwork::train(const float* inputData, size_t inputSize, const float* expected, size_t expectedSize, size_t numEpochs, float learningRate, float momentum) {
 
-    srand(time(0));
-
     for(size_t i = 0; i < numEpochs; ++i) {
 
         size_t randIndex = rand() % (inputSize / input().size());
@@ -178,8 +188,6 @@ void FFNeuralNetwork::train(const float* inputData, size_t inputSize, const floa
 }
 
 void FFNeuralNetwork::train(const std::vector<float>& inputData, const std::vector<float>& expected, size_t numEpochs, float learningRate, float momentum) {
-
-    srand(time(0));
     std::vector<float> tempInput;
     std::vector<float> tempExpected;
 

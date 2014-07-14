@@ -20,8 +20,6 @@ NeuronLayer::NeuronLayer(size_t numNeurons, size_t numBias) {
         neurons[i].setValue(0.0f);
     }
 
-    srand(time(0));
-
     for(size_t i = neuronCount; i < (neuronCount + biasCount); ++i) {
         neurons[i].setBias(true);
         neurons[i].setValue(1.0f);
@@ -44,8 +42,6 @@ void NeuronLayer::init(size_t numNeurons, size_t numBias) {
         neurons[i].setValue(0.0f);
     }
 
-    srand(time(0));
-
     for(size_t i = neuronCount; i < (neuronCount + biasCount); ++i) {
         neurons[i].setBias(true);
         neurons[i].setValue(1.0f);
@@ -54,8 +50,6 @@ void NeuronLayer::init(size_t numNeurons, size_t numBias) {
 
 void NeuronLayer::connectTo(NeuronLayer& nextLayer) {
     target = &nextLayer;
-
-    srand(time(0));
 
     for(size_t i = 0; i < (neuronCount + biasCount); ++i) {
         neurons[i].init(nextLayer.size());

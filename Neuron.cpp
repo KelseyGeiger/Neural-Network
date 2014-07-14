@@ -13,8 +13,6 @@ Neuron::Neuron(size_t w, float v, bool b) {
     weights = new float[numWeights];
     prevDeltas = new float[numWeights];
 
-    srand(time(0));
-
     for(size_t i = 0; i < numWeights; ++i) {
         weights[i] = ( (float) rand() / (float) RAND_MAX );
         prevDeltas[i] = 0.0f;
