@@ -6,7 +6,7 @@
 int main() {
 
     FFNeuralNetwork ffnnTest = FFNeuralNetwork(2, 1,
-                                               1, 4, 1,
+                                               1,4, 1,
                                                1);
 
     std::ofstream testOutput;
@@ -31,11 +31,11 @@ int main() {
 
     std::chrono::time_point<std::chrono::steady_clock> start = std::chrono::steady_clock::now();
 
-    ffnnTest.train(inputs, 8, expected, 4, 100000, 0.3f, 0.1f);
+    ffnnTest.train(inputs, 8, expected, 4, 50000, 0.3f, 0.1f);
 
     dur = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - start);
 
-    std::cout << "On average, training took " << (float) dur.count() / 100000.0f << " microseconds.\n";
+    std::cout << "On average, training took " << (float) dur.count() / 50000.0f << " microseconds.\n";
 
     float in[] = {
         1, 1
