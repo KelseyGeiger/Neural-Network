@@ -7,8 +7,10 @@
 
 #include "NeuronLayer.h"
 
-float sigmoid(float x);
-float sigmoidDerivative(float x);
+float logistic(float x);
+float logisticDerivative(float x);
+float hyperTan(float x);
+float hyperTanDerivative(float x);
 
 class FFNeuralNetwork;
 
@@ -31,7 +33,7 @@ class FFNeuralNetwork
         void init(size_t inputNeurons, size_t inputBias, size_t numHidden, size_t neuronPerHidden, size_t biasPerHidden, size_t outputNeurons);
         void init(size_t inputNeurons, size_t inputBias, size_t numHidden, size_t* hiddenSizes, size_t* biasAmounts, size_t outputNeurons);
 
-        void setFunctions(std::function<float(float)> activFunc = sigmoid, std::function<float(float)> deriv = sigmoidDerivative);
+        void setFunctions(std::function<float(float)> activFunc = logistic, std::function<float(float)> deriv = logisticDerivative);
 
         void setInputs(const float* vals, size_t arrSize);
         void setInputs(const std::vector<float>& vals);

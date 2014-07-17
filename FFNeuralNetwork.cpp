@@ -14,8 +14,8 @@ FFNeuralNetwork::FFNeuralNetwork() {
 
     layerCount = 3;
 
-    activationFunction = sigmoid;
-    activationDerivative = sigmoidDerivative;
+    activationFunction = logistic;
+    activationDerivative = logisticDerivative;
 }
 
 FFNeuralNetwork::FFNeuralNetwork(size_t inputNeurons, size_t inputBias, size_t numHidden, size_t neuronPerHidden, size_t biasPerHidden, size_t outputNeurons) {
@@ -37,8 +37,8 @@ FFNeuralNetwork::FFNeuralNetwork(size_t inputNeurons, size_t inputBias, size_t n
         layers[i].connectTo(layers[i+1]);
     }
 
-    activationFunction = sigmoid;
-    activationDerivative = sigmoidDerivative;
+    activationFunction = logistic;
+    activationDerivative = logisticDerivative;
 }
 
 FFNeuralNetwork::FFNeuralNetwork(size_t inputNeurons, size_t inputBias, size_t numHidden, size_t* hiddenSizes, size_t* biasAmounts, size_t outputNeurons) {
@@ -60,8 +60,8 @@ FFNeuralNetwork::FFNeuralNetwork(size_t inputNeurons, size_t inputBias, size_t n
         layers[i].connectTo(layers[i+1]);
     }
 
-    activationFunction = sigmoid;
-    activationDerivative = sigmoidDerivative;
+    activationFunction = logistic;
+    activationDerivative = logisticDerivative;
 }
 
 FFNeuralNetwork::~FFNeuralNetwork() {
@@ -88,8 +88,8 @@ void FFNeuralNetwork::init(size_t inputNeurons, size_t inputBias, size_t numHidd
         layers[i].connectTo(layers[i+1]);
     }
 
-    activationFunction = sigmoid;
-    activationDerivative = sigmoidDerivative;
+    activationFunction = logistic;
+    activationDerivative = logisticDerivative;
 }
 
 void FFNeuralNetwork::init(size_t inputNeurons, size_t inputBias, size_t numHidden, size_t* hiddenSizes, size_t* biasAmounts, size_t outputNeurons) {
@@ -112,8 +112,8 @@ void FFNeuralNetwork::init(size_t inputNeurons, size_t inputBias, size_t numHidd
         layers[i].connectTo(layers[i+1]);
     }
 
-    activationFunction = sigmoid;
-    activationDerivative = sigmoidDerivative;
+    activationFunction = logistic;
+    activationDerivative = logisticDerivative;
 }
 
 void FFNeuralNetwork::setFunctions(std::function<float(float)> activFunc, std::function<float(float)> deriv) {
@@ -367,13 +367,23 @@ std::ostream& operator<<(std::ostream& stream, const FFNeuralNetwork& ffnn) {
 
 //------------------------------------------------------------------------//
 
-float sigmoid(float x) {
+float logistic(float x) {
     return 1.0f / (1.0f + exp(-x) );
 }
 
-float sigmoidDerivative(float x) {
-    float sig = sigmoid(x);
+float logisticDerivative(float x) {
+    float sig = logistic(x);
     return sig * (1.0f - sig);
+}
+
+float hyperTan(float x) {
+    float ex = exp(-2.0f * x);
+    return (1.0f - ex) / (1.0f + ex);
+}
+
+float hyperTanDerivative(float x) {
+    float hypTan = hyperTan(x);
+    return 1.0f - (hypTan * hypTan);
 }
 
 FFNeuralNetwork loadNN(std::string filename) {
